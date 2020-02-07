@@ -54,4 +54,5 @@ print(bucket_sort(random_list.gen_list(10000)))
 
 # De complexiteit is gemiddeld O(n+k), waarbij k het maximaal aantal cijfers is in een getal.
 # De worst-case scenario is O(n^2)
+# Hoe meer ints in dezelfde bucket terecht komen, hoe langzamer dit algoritme
 # Dit is getest met de PyCharm profile functie
