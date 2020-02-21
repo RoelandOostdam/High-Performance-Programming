@@ -1,10 +1,7 @@
 from scripts.sort_merge_custom import merge_sort, merge
-import scripts.random_list as random_list
 import numpy as np
 import concurrent.futures
-import matplotlib.pyplot as plt
 import seaborn as sns; sns.set()
-import time
 
 
 def combine_threads(tracker):
@@ -25,21 +22,3 @@ def threaded_merge(arr, threads):
 			future = executor.submit(merge_sort, list(split))
 			tracker[i] = future.result()
 	return combine_threads(tracker)
-
-
-arr = random_list.gen_list(10000)
-threads = [1,2,4,8]
-results = []
-for t in threads:
-	start_time = time.time()
-	threaded_merge(arr, t)
-	results.append(time.time() - start_time)
-
-plt.xticks(threads)
-plt.title("Time it takes to sort a list with multi-threading")
-plt.xlabel("Threads")
-plt.ylabel("Process duration (s)")
-plt.tight_layout()
-plt.grid()
-plt.plot(threads, results)
-plt.show()
