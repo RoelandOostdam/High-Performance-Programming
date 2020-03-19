@@ -1,0 +1,1 @@
+mpiexec /np 2 python parallel.py 30
