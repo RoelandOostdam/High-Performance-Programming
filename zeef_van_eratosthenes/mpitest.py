@@ -1,27 +1,44 @@
 from mpi4py import MPI
 import numpy as np
+import sys
+import math
+from sequential import print_sieve
 
 comm = MPI.COMM_WORLD
 size = comm.Get_size()
 rank = comm.Get_rank()
+
 n = 30
 
-if rank == 0:
-	sieve = range(0,30)
-	data = list(np.array_split(sieve, size))
-	print('we will be scattering:', data)
-else:
-	data = None
+# Init sieve
+sieve = [1]*(n+1)
+sieve[0], sieve[1] = 0, 0
 
-data = comm.scatter(data, root=0)
-print('rank', rank, 'has data:', data)
+# K bepalen
+def get_k(sieve,k):
+	if k==0:
+		return 2
+	k = sieve[k:].index(1)+k
+	return k
 
-newData = comm.gather(data,root=0)
+# Slicen
+def slice(sieve):
+	sliced_list = []
+	for t in range(0,comm.size):
+		sliced_list.append([])
 
-if rank == 0:
-	print('master:',newData)
+	current_thread = 0
+	for x in range(0,n):
+		sliced_list[current_thread].append(sieve[x])
+		if current_thread<comm.size-1:
+			current_thread+=1
+		else:
+			current_thread=0
+	return sliced_list
 
-	combined_arr = []
-	for x in newData:
-		combined_arr.insert(len(combined_arr),list(x))
-	print(combined_arr)
+k = 2
+k = get_k(sieve,k)
+
+while k<=math.sqrt(n)+1:
+	data = slice(sieve)[rank]
+	

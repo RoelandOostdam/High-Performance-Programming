@@ -1,1 +1,1 @@
-mpiexec /np 2 python parallel.py 30
+mpiexec /np 2 python mpitest.py 30

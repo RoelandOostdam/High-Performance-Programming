@@ -1,4 +1,5 @@
 import time
+import math
 
 def remove_multiples(sieve, k):
 	n = len(sieve) # Max number to calculate
@@ -12,7 +13,7 @@ def run(n):
 	sieve = [1]*(n+1) # Initialize sieve
 	sieve[0], sieve[1] = 0, 0 # 0 & 1 are not prime numbers
 	k = 2
-	while k<=n:
+	while k<=math.sqrt(n)+1:
 		sieve = remove_multiples(sieve, k)
 		k+=1
 		try:

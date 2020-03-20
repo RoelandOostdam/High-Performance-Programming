@@ -5,7 +5,7 @@ from subprocess import Popen, PIPE
 
 def run_test(tests, engine):
 	global threads
-	print("Running test with engine:",str(engine))
+	print("Running test on",str(threads), "threads with engine:",str(engine))
 	results = {}
 	for n in tests:
 		print("Calculating n =",n)
